@@ -1,0 +1,27 @@
+{
+  "name": "religious-tolerance-pledge",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "mocha",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ladyjem/ReligiousTolerancePledge.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ladyjem/ReligiousTolerancePledge/issues"
+  },
+  "homepage": "https://github.com/ladyjem/ReligiousTolerancePledge#readme",
+  "dependencies": {
+    "chai": "^4.1.2",
+    "chai-http": "^3.0.0",
+    "express": "^4.16.2",
+    "mocha": "^3.2.0",
+    "mongoose": "^4.13.0"
+  }
+}
