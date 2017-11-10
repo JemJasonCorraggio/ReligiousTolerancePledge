@@ -1,4 +1,4 @@
-/*global $ */
+/*global $*/
 
 var MockBusinessData= {
     BusinessData: [
@@ -60,32 +60,45 @@ var MockBusinessData= {
         ]
 };
 
-function getBusinessData(callbackFn) {
+var RESULT_HTML_TEMPLATE = (
+    '<div><p></p>' +
+    '<p class="name"></p>'+
+    '<p class="addressLine1"></p>'+
+    '<p class="addressLine2"></p>'+
+    '</div>'
+    );
+
+function getBusinessData() {
     // we use a `setTimeout` to make this asynchronous
     // as it would be with a real AJAX call.
-	setTimeout(function(){ callbackFn(MockBusinessData)}, 1);
+	setTimeout(function(){ displayBusinessData(MockBusinessData)}, 1);
+}
+function renderResult(result) {
+    var template = $(RESULT_HTML_TEMPLATE);
+    template.find(".name").text(result.name);
+    template.find(".addressLine1").text(result.address.street);
+    template.find(".addressLine2").text(result.address.city + ", "+result.address.state + " "+result.address.zip);
+    return template;
 }
 
 // this function stays the same when we connect
 // to real API later
 function displayBusinessData(data) {
-    var index = 0;
-    for (index in data.BusinessData) {
-	   $('body').append(
-        '<p>' + data.BusinessData[index].name + '</p>'+
-        '<p>' + data.BusinessData[index].address.street + '</p>'+
-        '<p>' + data.BusinessData[index].address.city + ', '+data.BusinessData[index].address.state + ' '+data.BusinessData[index].address.zip+ '</p>');
-        index ++;
-    }
+        var results = data.BusinessData.map(function(item, index) {
+         return renderResult(item);    
+        });
+    $(".businesses").html(results);
 }
+
 
 // this function can stay the same even when we
 // are connecting to real API
 function getAndDisplayBusinessData() {
-	getBusinessData(displayBusinessData());
+	getBusinessData();
+
 }
 
 //  on page load do this
-$(function() {
+$(document).ready(function() {
 	getAndDisplayBusinessData();
 })
