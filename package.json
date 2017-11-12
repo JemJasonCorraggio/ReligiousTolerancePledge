@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/ladyjem/ReligiousTolerancePledge#readme",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "chai": "^4.1.2",
     "chai-http": "^3.0.0",
     "express": "^4.16.2",
