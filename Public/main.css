@@ -4,6 +4,13 @@ body * {
 .title{
     margin-top: 100px;
 }
+form, input{
+    display: inline-block;
+    position: relative;
+}
+.hidden{
+    display: none;
+}
 div{
     width: 600px;
     position: relative;
