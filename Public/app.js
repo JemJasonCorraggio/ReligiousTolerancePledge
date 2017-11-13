@@ -29,7 +29,6 @@ function renderResult(result) {
 // this function stays the same when we connect
 // to real API later
 function displayBusinessData(data) {
-    console.log(data);
         var results = data.map(function(item, index) {
          return renderResult(item);    
         });
@@ -57,7 +56,9 @@ $(document).ready(function() {
         var errMessage;
           $.ajax("https://religious-tolerance-pledge.herokuapp.com/login",{
             method: "POST",
-           data: {user, password},
+           data: JSON.stringify({user, password}),
+           processData: false,
+           contentType: 'application/json',
            success: function (token) { localStorage.setItem("token", token); return window.location.href = "certificate.html"; },
            error: function(type, error) { return errMessage=error;}
         });
