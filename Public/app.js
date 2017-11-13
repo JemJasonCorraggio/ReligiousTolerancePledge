@@ -100,7 +100,7 @@ $(".signup").submit(function(event) {
            data: JSON.stringify(newBusiness),
            processData: false,
            contentType: 'application/json',
-           success: function (res) { localStorage.setItem("token", res.authToken); console.log(res); return window.location.href = "certificate.html"; },
+           success: function (res) { localStorage.setItem("token", res.authToken); console.log(res); },//return window.location.href = "certificate.html"; },
            error: function(type, error) { $(".error").removeClass("hidden");
       return $(".error").html(error||"server error");}
         });
