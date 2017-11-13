@@ -96,7 +96,7 @@ $(".signup").submit(function(event) {
 
         $.ajax("https://religious-tolerance-pledge.herokuapp.com/businesses",{
             method: "POST",
-           data: JSON.stringify({body: newBusiness}),
+           data: JSON.stringify(newBusiness),
            processData: false,
            contentType: 'application/json',
            success: function (token) { localStorage.setItem("token", token); return window.location.href = "certificate.html"; },
