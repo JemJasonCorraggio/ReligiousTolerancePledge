@@ -41,6 +41,8 @@ const jwtStrategy = new JwtStrategy(
 );
 const basicStrategy = new BasicStrategy((username, password, callback) => {
     let user;
+    console.log(username);
+    console.log(password);
     Business.findOne({username: username})
         .then(_user => {
             user = _user;
@@ -84,6 +86,7 @@ app.post(
     // The user provides a username and password to login
     passport.authenticate('basic', {session: false}),
     (req, res) => {
+        console.log(req);
         const authToken = createAuthToken(req.user);
         res.json({token: authToken});
     }
