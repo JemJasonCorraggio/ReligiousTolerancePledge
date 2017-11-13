@@ -11,13 +11,14 @@ var RESULT_HTML_TEMPLATE = (
     );
 
 function getBusinessData(callbackFn) {
-    var data = $.ajax("https://religious-tolerance-pledge.herokuapp.com/businesses",{
+    var businessData;
+    $.ajax("https://religious-tolerance-pledge.herokuapp.com/businesses",{
             method: "GET",
-           success: function (data) {  console.log(data); return data; },
+           success: function (data) { return businessData = data; },
         });
     // we use a `setTimeout` to make this asynchronous
     // as it would be with a real AJAX call.
-	callbackFn(data);
+	callbackFn(businessData);
 }
 function renderResult(result) {
     var template = $(RESULT_HTML_TEMPLATE);
