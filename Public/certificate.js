@@ -5,7 +5,7 @@ $("certificate.html").ready(function() {
     var token = localStorage.getItem("token");
 $.ajax("https://religious-tolerance-pledge.herokuapp.com/certificate",{
             method: "GET",
-            header: {
+            headers: {
                 "Authorization": `Bearer ${token}`
             },
            success: function (imgbase64) { return $(".certificate").html('<img src="imgbase64:image/png;base64,' + imgbase64 + '" />');},
