@@ -53,19 +53,16 @@ $(document).ready(function() {
         var user = userTarget.val();
         let targetPass =$(event.currentTarget).find(".js-pass");
         var password = targetPass.val();
-        var errMessage;
           $.ajax("https://religious-tolerance-pledge.herokuapp.com/login",{
             method: "POST",
-            headers: {
-    "Authorization": {username:user, password: password}
-  },
+            data: JSON.stringify({username:user,password:password}),
+           processData: false,
+           contentType: 'application/json',
            success: function (token) { localStorage.setItem("token", token); return window.location.href = "certificate.html"; },
-           error: function(type, error) { return errMessage=error;}
+           error: function(type, error) {      $(".error").removeClass("hidden");
+      return $(".error").html(error);}
         });
-    if(errMessage) {
-     $(".error").removeClass("hidden");
-      return $(".error").html(errMessage||"server error");
-    }
+
 });
 $(".signup").submit(function(event) {
         event.preventDefault();
