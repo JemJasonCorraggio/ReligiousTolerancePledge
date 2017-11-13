@@ -102,6 +102,7 @@ app.get('/businesses', (req, res) => {
     });
 });
 app.post('/businesses', (req, res) => {
+    console.log(req.body);
   const requiredFields = ['username', 'password', 'name', 'address'];
   for (let i=0; i<requiredFields.length; i++) {
     const field = requiredFields[i];

@@ -93,16 +93,13 @@ $(".signup").submit(function(event) {
                 zip: zip
             }
         };
-        var errMessage;
+
         $.ajax("https://religious-tolerance-pledge.herokuapp.com/businesses",{
             method: "POST",
            data: newBusiness,
            success: function (token) { localStorage.setItem("token", token); return window.location.href = "certificate.html"; },
-           error: function(type, error) { return errMessage=error;}
+           error: function(type, error) { $(".error").removeClass("hidden");
+      return $(".error").html(error||"server error");}
         });
-    if(errMessage) {
-     $(".error").removeClass("hidden");
-      return $(".error").html(errMessage||"server error");
-    }
 });
 })
