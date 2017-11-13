@@ -124,6 +124,7 @@ app.post('/businesses', (req, res) => {
     .then( passport.authenticate('jwt', {session: false}),
     (req, res) => {
         const authToken = createAuthToken(req.business);
+        console.log(authToken);
         res.json({authToken});
     })
     .catch(err => {
