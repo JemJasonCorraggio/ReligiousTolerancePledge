@@ -147,16 +147,16 @@ describe('Religious Tolerance Pledge', function() {
           res.should.have.status(201);
           res.should.be.json;
           res.body.should.be.a('object');
-          res.body.should.include.keys('_id', 'username', 'password', 'name', 'address');
-          res.body.username.should.equal(newBusiness.username);
+          res.body.should.include.keys('business', 'token');
+          res.body.business.username.should.equal(newBusiness.username);
           // cause Mongo should have created id on insertion
-          res.body._id.should.not.be.null;
-          res.body.name.should.equal(newBusiness.name);
-          res.body.address.street.should.equal(newBusiness.address.street);
-          res.body.address.city.should.equal(newBusiness.address.city);
-          res.body.address.state.should.equal(newBusiness.address.state);
-          res.body.address.zip.should.equal(newBusiness.address.zip);
-          return bcrypt.compare(newBusiness.password, res.body.password)
+          res.body.business._id.should.not.be.null;
+          res.body.business.name.should.equal(newBusiness.name);
+          res.body.business.address.street.should.equal(newBusiness.address.street);
+          res.body.business.address.city.should.equal(newBusiness.address.city);
+          res.body.business.address.state.should.equal(newBusiness.address.state);
+          res.body.business.address.zip.should.equal(newBusiness.address.zip);
+          return bcrypt.compare(newBusiness.password, res.body.business.password)
           .then((res)=>{
           res.should.be.true;
           });
@@ -180,7 +180,7 @@ describe('Religious Tolerance Pledge', function() {
                 .then(res => {
                     res.should.have.status(200);
                     res.body.should.be.an('object');
-                    const token = res.body.authToken;
+                    const token = res.body.token;
                     token.should.be.a('string');
                     const payload = jwt.verify(token, JWT_SECRET, {
                         algorithm: ['HS256']

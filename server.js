@@ -19,13 +19,14 @@ const {
     Strategy: JwtStrategy,
     ExtractJwt
 } = require('passport-jwt');
-const createAuthToken = user => {
-    return jwt.sign({user}, JWT_SECRET, {
+function createAuthToken( user) {
+    var token = jwt.sign({user}, JWT_SECRET, {
         subject: user.username,
         expiresIn: '7d',
         algorithm: 'HS256'
     });
-};
+    return token;
+}
 const jwtStrategy = new JwtStrategy(
     {
         secretOrKey: JWT_SECRET,
@@ -84,7 +85,7 @@ app.post(
     passport.authenticate('basic', {session: false}),
     (req, res) => {
         const authToken = createAuthToken(req.user);
-        res.json({authToken});
+        res.json({token: authToken});
     }
 );
 app.get('/certificate', passport.authenticate('jwt', {session: false}), (req, res) => {
@@ -112,7 +113,7 @@ app.post('/businesses', (req, res) => {
     }
   }
 
-  Business.hashPassword(req.body.password).then(password=>
+  return Business.hashPassword(req.body.password).then(password=>
     Business.create({
       username: req.body.username,
       password: password,
@@ -120,12 +121,9 @@ app.post('/businesses', (req, res) => {
       address: req.body.address
     })
     )
-    .then(business => res.status(201).json(business))
-    .then( passport.authenticate('jwt', {session: false}),
-    (req, res) => {
-        const authToken = createAuthToken(req.business);
-        console.log(authToken);
-        res.json({authToken});
+    .then(business => {
+        const authToken = createAuthToken(business);
+        res.status(201).json({business: business, token: authToken});
     })
     .catch(err => {
         console.error(err);
