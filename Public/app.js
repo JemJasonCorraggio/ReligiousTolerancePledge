@@ -13,7 +13,7 @@ var RESULT_HTML_TEMPLATE = (
 function getBusinessData(callbackFn) {
     var data = $.ajax("https://religious-tolerance-pledge.herokuapp.com/businesses",{
             method: "GET",
-           success: function (data) {  return data.body; },
+           success: function (data) {  console.log(data); return data.body; },
         });
     // we use a `setTimeout` to make this asynchronous
     // as it would be with a real AJAX call.
