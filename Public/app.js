@@ -56,7 +56,7 @@ $(document).ready(function() {
         var errMessage;
           $.ajax("https://religious-tolerance-pledge.herokuapp.com/login",{
             method: "POST",
-           data: JSON.stringify({user, password}),
+           data: JSON.stringify({username: user, password: password}),
            processData: false,
            contentType: 'application/json',
            success: function (token) { localStorage.setItem("token", token); return window.location.href = "certificate.html"; },
