@@ -13,7 +13,7 @@ var RESULT_HTML_TEMPLATE = (
 function getBusinessData(callbackFn) {
     var data = $.ajax("https://religious-tolerance-pledge.herokuapp.com/businesses",{
             method: "GET",
-           success: function (data) {  console.log(data); return data.body; },
+           success: function (data) {  console.log(data); return data; },
         });
     // we use a `setTimeout` to make this asynchronous
     // as it would be with a real AJAX call.
@@ -30,6 +30,7 @@ function renderResult(result) {
 // this function stays the same when we connect
 // to real API later
 function displayBusinessData(data) {
+    console.log(data);
         var results = data.map(function(item, index) {
          return renderResult(item);    
         });
