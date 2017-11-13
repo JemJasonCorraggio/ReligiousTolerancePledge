@@ -12,7 +12,9 @@ const businessSchema = mongoose.Schema({
             zip: String
         }
 });
-
+businessSchema.methods.validatePassword = function(password) {
+    return bcrypt.compare(password, this.password);
+};
 
 businessSchema.statics.hashPassword= function(password) {
   return bcrypt.hash(password, 10);

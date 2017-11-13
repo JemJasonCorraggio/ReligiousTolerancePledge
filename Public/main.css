@@ -28,13 +28,13 @@ nav{
     padding-left: 60px;
     padding-right: 60px;
 }
-ul{
+.links{
   position: absolute;
   top: 0px;
     display: inline-block;
     list-style: none;
 }
-li{
+.link{
     display: inline-block;
     height: 70px;
     line-height: 30px;
@@ -48,6 +48,6 @@ li{
     border-radius: 50%;
     border: 1px solid black;
 }
-li:not(:first-child):before {
+.link:not(:first-child):before {
     content: " | ";
 }

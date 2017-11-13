@@ -1,78 +1,6 @@
 /*global $*/
-var MockBusinessData= {
-    BusinessData: [
-        {id: 1,
-        username: "user1",
-        password: "passwprd",
-        name: "Alice's Restaurant",
-        address: {
-            street:"123 Place St.",
-            city: "Philadelphia",
-            state: "PA",
-            zip: "12345"
-        },
-           validatePassword: function(password) {
-  return password===this.password;
-}
-        },
-         {id: 2,
-         username: "user2",
-        password: "passwprd",
-        name: "Bob's Restaurant",
-        address: {
-            street:"123 Road St.",
-            city: "Philadelphia",
-            state: "PA",
-            zip: "12345"
-        },
-           validatePassword: function(password) {
-  return password===this.password;
-}
-        },
-         {id: 3,
-         username: "user3",
-        password: "passwprd",
-        name: "Colin's Restaurant",
-        address: {
-            street:"123 Drive St.",
-            city: "Philadelphia",
-            state: "PA",
-            zip: "12345"
-        },
-           validatePassword: function(password) {
-  return password===this.password;
-}
-        },
-         {id: 4,
-         username: "user4",
-        password: "passwprd",
-        name: "Debbie's Restaurant",
-        address: {
-            street:"123 Lane St.",
-            city: "Philadelphia",
-            state: "PA",
-            zip: "12345"
-        },
-           validatePassword: function(password) {
-  return password===this.password;
-}
-        },
-         {id: 5,
-         username: "user5",
-        password: "passwprd",
-        name: "Eddie's Restaurant",
-        address: {
-            street:"123 Avenue St.",
-            city: "Philadelphia",
-            state: "PA",
-            zip: "12345"
-        },
-           validatePassword: function(password) {
-  return password===this.password;
-}
-        }
-        ]
-};
+/*global localStorage*/
+
 
 var RESULT_HTML_TEMPLATE = (
     '<div><p></p>' +
@@ -83,9 +11,13 @@ var RESULT_HTML_TEMPLATE = (
     );
 
 function getBusinessData(callbackFn) {
+    var data = $.ajax("https://religious-tolerance-pledge.herokuapp.com/businesses",{
+            method: "GET",
+           success: function (data) {  return data; },
+        });
     // we use a `setTimeout` to make this asynchronous
     // as it would be with a real AJAX call.
-	setTimeout(function(){ callbackFn(MockBusinessData)}, 100);
+	callbackFn(data);
 }
 function renderResult(result) {
     var template = $(RESULT_HTML_TEMPLATE);
@@ -98,7 +30,7 @@ function renderResult(result) {
 // this function stays the same when we connect
 // to real API later
 function displayBusinessData(data) {
-        var results = data.BusinessData.map(function(item, index) {
+        var results = data.map(function(item, index) {
          return renderResult(item);    
         });
     $(".businesses").html(results);
@@ -122,19 +54,52 @@ $(document).ready(function() {
         var user = userTarget.val();
         let targetPass =$(event.currentTarget).find(".js-pass");
         var password = targetPass.val();
-        var _user=MockBusinessData.BusinessData.find(function(item){return item.username===user;});
-         user = _user;
-         var errMessage;
-         if (!user) {
-        // Return a rejected promise so we break out of the chain of .thens.
-        // Any errors like this will be handled in the catch block.
-        errMessage="Incorrect Username or Password";
-      }
-      console.log(user);
-      if (!user.validatePassword(password)) {
-             errMessage="Incorrect Username or Password";
-      }
-      else { window.location.href = "certificate.html";}
+        var errMessage;
+          $.ajax("https://religious-tolerance-pledge.herokuapp.com/login",{
+            method: "POST",
+           data: {user, password},
+           success: function (token) { localStorage.setItem("token", token); return window.location.href = "certificate.html"; },
+           error: function(type, error) { return errMessage=error;}
+        });
+    if(errMessage) {
+     $(".error").removeClass("hidden");
+      return $(".error").html(errMessage||"server error");
+    }
+});
+$(".signup").submit(function(event) {
+        event.preventDefault();
+        let userTarget = $(event.currentTarget).find(".new-user");
+        var user = userTarget.val();
+        let targetPass =$(event.currentTarget).find(".new-pass");
+        var password = targetPass.val();
+        var targetName = $(event.currentTarget).find(".new-name");
+        let name = targetName.val();
+        var targetStreet = $(event.currentTarget).find(".new-street");
+        let street = targetStreet.val();
+        var targetCity = $(event.currentTarget).find(".new-city");
+        let city = targetCity.val();
+        var targetState = $(event.currentTarget).find(".new-state");
+        let state = targetState.val();
+        var targetZip = $(event.currentTarget).find(".new-zip");
+        let zip = targetZip.val();
+        var newBusiness = {
+            username: user,
+            password: password,
+            name: name,
+            address: {
+                street: street,
+                city: city,
+                state: state,
+                zip: zip
+            }
+        };
+        var errMessage;
+        $.ajax("https://religious-tolerance-pledge.herokuapp.com/businesses",{
+            method: "POST",
+           data: newBusiness,
+           success: function (token) { localStorage.setItem("token", token); return window.location.href = "certificate.html"; },
+           error: function(type, error) { return errMessage=error;}
+        });
     if(errMessage) {
      $(".error").removeClass("hidden");
       return $(".error").html(errMessage||"server error");
