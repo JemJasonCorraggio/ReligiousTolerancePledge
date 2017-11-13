@@ -58,7 +58,7 @@ $(document).ready(function() {
             data: JSON.stringify({username:user,password:password}),
            processData: false,
            contentType: 'application/json',
-           success: function (token) { localStorage.setItem("token", token); return window.location.href = "certificate.html"; },
+           success: function (res) { localStorage.setItem("token", res.token); return window.location.href = "certificate.html"; },
            error: function(type, error) {      $(".error").removeClass("hidden");
       return $(".error").html(error);}
         });
