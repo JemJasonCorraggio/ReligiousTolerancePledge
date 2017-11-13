@@ -56,9 +56,8 @@ $(document).ready(function() {
         var errMessage;
           $.ajax("https://religious-tolerance-pledge.herokuapp.com/login",{
             method: "POST",
-           beforeSend: function (xhr) {
-    xhr.setRequestHeader ("Authorization", JSON.stringify({username:user, password:password}));
-},
+            username: user,
+            password: password,
            success: function (token) { localStorage.setItem("token", token); return window.location.href = "certificate.html"; },
            error: function(type, error) { return errMessage=error;}
         });
@@ -100,7 +99,7 @@ $(".signup").submit(function(event) {
            data: JSON.stringify(newBusiness),
            processData: false,
            contentType: 'application/json',
-           success: function (res) { localStorage.setItem("token", res.token); console.log(res); },//return window.location.href = "certificate.html"; },
+           success: function (res) { localStorage.setItem("token", res.token); return window.location.href = "certificate.html"; },
            error: function(type, error) { $(".error").removeClass("hidden");
       return $(".error").html(error||"server error");}
         });
